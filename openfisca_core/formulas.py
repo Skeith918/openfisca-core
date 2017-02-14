@@ -670,6 +670,7 @@ def neutralize_column(column):
     return new_filled_column(
         base_function = requested_period_default_value_neutralized,
         entity = column.entity,
+        is_neutralized = True,
         label = u'[Neutralized]' if column.label is None else u'[Neutralized] {}'.format(column.label),
         reference_column = column,
         set_input = set_input_neutralized,
@@ -688,6 +689,7 @@ def new_filled_column(
         entity = UnboundLocalError,
         formula_class = UnboundLocalError,
         is_permanent = UnboundLocalError,
+        is_neutralized = False,
         label = UnboundLocalError,
         law_reference = UnboundLocalError,
         name = None,
@@ -930,6 +932,7 @@ def new_filled_column(
     column.formula_class = formula_class
     if is_permanent:
         column.is_permanent = True
+    column.is_neutralized = is_neutralized
     column.label = label
     column.law_reference = law_reference
     column.name = name
