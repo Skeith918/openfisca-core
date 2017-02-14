@@ -121,6 +121,8 @@ class Holder(object):
         column = self.column
         accept_other_period = parameters.get('accept_other_period', False)
 
+        if self.column.is_neutralized:
+            return DatedHolder(self, period, value = self.default_array())
         # First look for dated_holders covering the whole period (without hole).
         dated_holder = self.get_from_cache(period, parameters.get('extra_params'))
         if dated_holder.array is not None:
@@ -142,6 +144,8 @@ class Holder(object):
         return self.put_in_cache(array, period)
 
     def compute_add(self, period = None, **parameters):
+        if self.column.is_neutralized:
+            return DatedHolder(self, period, value = self.default_array())
         dated_holder = self.get_from_cache(period, parameters.get('extra_params'))
         if dated_holder.array is not None:
             return dated_holder
@@ -194,6 +198,8 @@ class Holder(object):
                 requested_period = requested_start.offset(returned_period_months, u'month').period(u'month')
 
     def compute_add_divide(self, period = None, **parameters):
+        if self.column.is_neutralized:
+            return DatedHolder(self, period, value = self.default_array())
         dated_holder = self.get_from_cache(period, parameters.get('extra_params'))
         if dated_holder.array is not None:
             return dated_holder
@@ -245,6 +251,8 @@ class Holder(object):
                 requested_period = requested_start.offset(intersection_months, u'month').period(u'month')
 
     def compute_divide(self, period = None, **parameters):
+        if self.column.is_neutralized:
+            return DatedHolder(self, period, value = self.default_array())
         dated_holder = self.get_from_cache(period, parameters.get('extra_params'))
         if dated_holder.array is not None:
             return dated_holder
