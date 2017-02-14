@@ -17,12 +17,12 @@ from .dummy_country import DummyTaxBenefitSystem
 tax_benefit_system = DummyTaxBenefitSystem()
 
 
+class test_rsa_neutralization(Reform):
+    def apply(self):
+        self.neutralize_column('rsa')
+
+
 def test_formula_neutralization():
-
-    class test_rsa_neutralization(Reform):
-        def apply(self):
-            self.neutralize_column('rsa')
-
     reform = test_rsa_neutralization(tax_benefit_system)
 
     year = 2013
@@ -43,6 +43,25 @@ def test_formula_neutralization():
     assert_near(rsa_reform, 0, absolute_error_margin = 0)
     revenu_disponible_reform = reform_simulation.calculate('revenu_disponible')
     assert_near(revenu_disponible_reform, 0, absolute_error_margin = 0)
+
+
+def test_neutralization_optimization():
+    reform = test_rsa_neutralization(tax_benefit_system)
+
+    year = 2013
+    scenario = reform.new_scenario().init_single_entity(
+        period = year,
+        famille = dict(depcom = '75101'),
+        parent1 = dict(),
+        parent2 = dict(),
+        )
+    simulation = scenario.new_simulation(debug = True)
+    simulation.calculate('rsa', period = '2013-01')
+    simulation.calculate_add('rsa', period = '2013')
+
+    # As rsa is neutralized, it should not be cached
+    rsa_holder = simulation.holder_by_name.get('rsa')
+    assert rsa_holder._array_by_period is None
 
 
 def test_input_variable_neutralization():
