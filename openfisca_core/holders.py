@@ -24,7 +24,7 @@ class DatedHolder(object):
 
     @property
     def array(self):
-        return self.value if self.value else self.holder.get_array(self.period, self.extra_params)
+        return self.value if self.value is not None else self.holder.get_array(self.period, self.extra_params)
 
     @array.setter
     def array(self, array):
