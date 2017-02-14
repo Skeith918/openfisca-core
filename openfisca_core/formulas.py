@@ -665,7 +665,10 @@ def missing_value(formula, simulation, period):
 
 
 def neutralize_column(column):
-    """Return a new neutralized column (to be used by reforms)."""
+    """
+        Return a new neutralized column (to be used by reforms).
+        A neutralized column always returns its default value, and does not cache anything.
+    """
     return new_filled_column(
         entity = column.entity,
         is_neutralized = True,
