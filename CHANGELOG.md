@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.6
+
+* Do not cache values for neutralize columns
+  - To reduce memory usage for large population simulations
+
 ## 4.3.5
 
 * Refactor decomposition TaxBenefitSystem attributes. Reform inherit the decomposition_file_path from the reference TaxBenefitSystem.
